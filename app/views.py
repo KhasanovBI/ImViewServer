@@ -209,7 +209,7 @@ def get_comments():
 @app.route('/image/vote', methods=['POST'])
 @login_required
 def image_vote():
-    image_id = request.form['image_id']
+    image_id = int(request.form['image_id'])
     is_upvote = request.form['is_upvote']
     image = models.Image.query.filter_by(id=image_id).first()
 
