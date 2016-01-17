@@ -225,8 +225,10 @@ def image_vote():
             image.rating -= 1
         db.session.add(image)
         db.session.commit()
-
-        return make_response(jsonify(image.as_dict()))
+        image = image.as_dict()
+        comments_count = len(image.comments.all())
+        image['comments_count'] = comments_count
+        return make_response(jsonify(image))
 
 
 @app.route('/comment/vote', methods=['POST'])
