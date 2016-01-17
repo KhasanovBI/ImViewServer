@@ -1,6 +1,8 @@
-from app import db
-from flask.ext.login import unicode
 from datetime import datetime
+
+from flask.ext.login import unicode
+
+from app import db
 
 votes = db.Table('votes',
                  db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
@@ -35,7 +37,7 @@ class Comment(db.Model):
     publish_date = db.Column(db.DateTime)
     rating = db.Column(db.Integer, default=0)
     image_id = db.Column(db.Integer, db.ForeignKey('image.id'))
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    voted_user = db.relationship('User', secondary=votes, backref=db.backref('voted_comments', lazy='dynamic'))
 
     def __init__(self, text, user_id, image_id):
         self.text = text
