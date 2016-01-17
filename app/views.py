@@ -228,6 +228,7 @@ def image_vote():
         comments_count = len(image.comments.all())
         image = image.as_dict()
         image['comments_count'] = comments_count
+        image['publish_date'] = str(image['publish_date'])
         return make_response(jsonify(image))
 
 
