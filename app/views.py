@@ -250,5 +250,6 @@ def comment_vote():
             comment.rating -= 1
         db.session.add(comment)
         db.session.commit()
-
-        return make_response(jsonify(comment.as_dict()))
+        comment = comment.as_dict()
+        comment['publish_date'] = str(comment['publish_date'])
+        return make_response(jsonify(comment))
