@@ -170,7 +170,6 @@ def get_featured_list():
 def create_comment():
     text = request.form['text']
     image_id = request.form['image_id']
-
     comment = models.Comment(text, current_user.id, image_id)
 
     db.session.add(comment)
@@ -237,7 +236,6 @@ def image_vote():
 def comment_vote():
     comment_id = request.form['comment_id']
     is_upvote = request.form['is_upvote']
-
     comment = models.Comment.query.filter_by(id=comment_id).first()
 
     if current_user in comment.voted_user:
