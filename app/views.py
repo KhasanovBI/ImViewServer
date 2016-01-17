@@ -138,7 +138,7 @@ def get_image_by_id():
         response.status_code = 200
         return response
     else:
-        return Response(status=404)
+        return Response(status=400)
 
 
 @app.route('/image/list', methods=['GET'])
@@ -215,7 +215,7 @@ def image_vote():
 
     if current_user in image.voted_user:
         response = make_response(jsonify({'error': 'already voted', 'error_code': 0}))
-        response.status_code = 405
+        response.status_code = 403
         return response
     else:
         image.voted_user.append(current_user)
@@ -239,7 +239,7 @@ def comment_vote():
 
     if current_user in comment.voted_user:
         response = make_response(jsonify({'error': 'already voted', 'error_code': 0}))
-        response.status_code = 405
+        response.status_code = 403
         return response
     else:
         comment.voted_user.append(current_user)
