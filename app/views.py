@@ -225,8 +225,8 @@ def image_vote():
             image.rating -= 1
         db.session.add(image)
         db.session.commit()
-        image = image.as_dict()
         comments_count = len(image.comments.all())
+        image = image.as_dict()
         image['comments_count'] = comments_count
         return make_response(jsonify(image))
 
