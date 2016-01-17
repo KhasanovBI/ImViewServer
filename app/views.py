@@ -211,7 +211,6 @@ def get_comments():
 def image_vote():
     image_id = request.form['image_id']
     is_upvote = request.form['is_upvote']
-
     image = models.Image.query.filter_by(id=image_id).first()
 
     if current_user in image.voted_user:
@@ -220,7 +219,7 @@ def image_vote():
         return response
     else:
         image.voted_user.append(current_user)
-        if is_upvote == 1:
+        if is_upvote == '1':
             image.rating += 1
         else:
             image.rating -= 1
@@ -244,7 +243,7 @@ def comment_vote():
         return response
     else:
         comment.voted_user.append(current_user)
-        if is_upvote == 1:
+        if is_upvote == '1':
             comment.rating += 1
         else:
             comment.rating -= 1
