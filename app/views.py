@@ -40,7 +40,7 @@ def shutdown():
     if current_user.id == 1:
         shutdown_server()
     else:
-        return Response(status=401)
+        return Response(status=403)
 
 
 @app.route('/login', methods=['POST'])
@@ -55,7 +55,7 @@ def login():
         return make_response(jsonify(resp_dict))
     else:
         response = make_response(jsonify({"error": "wrong username or password"}))
-        response.status_code = 401
+        response.status_code = 400
         return response
 
 
@@ -213,8 +213,8 @@ def image_vote():
     image = models.Image.query.filter_by(id=image_id).first()
 
     if current_user in image.voted_user:
-        response = make_response(jsonify({'error': 'already voted', 'error_code': 0}))
-        response.status_code = 403
+        response = make_response(jsonify({'error': 'already voted'}))
+        response.status_code = 406
         return response
     else:
         image.voted_user.append(current_user)
@@ -239,8 +239,8 @@ def comment_vote():
     comment = models.Comment.query.filter_by(id=comment_id).first()
 
     if current_user in comment.voted_user:
-        response = make_response(jsonify({'error': 'already voted', 'error_code': 0}))
-        response.status_code = 403
+        response = make_response(jsonify({'error': 'already voted'}))
+        response.status_code = 406
         return response
     else:
         comment.voted_user.append(current_user)
