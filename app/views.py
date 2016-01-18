@@ -158,7 +158,7 @@ def get_featured_list():
     for image in image_set:
         comments_count = len(image.comments.all())
         image = image.as_dict()
-        image['publish_date'] = str(image['publish_date'])
+        image['publish_date'] = str(image['publish_date'])[:-7]
         image['comments_count'] = comments_count
         image_list.append(image)
 
@@ -182,7 +182,7 @@ def create_comment():
     author = comment.author.as_dict()
     del author['password']
     response = comment.as_dict()
-    response['publish_date'] = str(response['publish_date'])
+    response['publish_date'] = str(response['publish_date'])[:-7]
     response['author'] = author
     return make_response(jsonify(response))
 
@@ -196,7 +196,7 @@ def get_comments():
             author = comment.author.as_dict()
             del author['password']
             comment = comment.as_dict()
-            comment['publish_date'] = str(comment['publish_date'])
+            comment['publish_date'] = str(comment['publish_date'])[:-7]
             comment['author'] = author
             comment_list.append(comment)
 
@@ -227,7 +227,7 @@ def image_vote():
         comments_count = len(image.comments.all())
         image = image.as_dict()
         image['comments_count'] = comments_count
-        image['publish_date'] = str(image['publish_date'])
+        image['publish_date'] = str(image['publish_date'])[:-7]
         return make_response(jsonify(image))
 
 
@@ -251,5 +251,5 @@ def comment_vote():
         db.session.add(comment)
         db.session.commit()
         comment = comment.as_dict()
-        comment['publish_date'] = str(comment['publish_date'])
+        comment['publish_date'] = str(comment['publish_date'])[:-7]
         return make_response(jsonify(comment))
