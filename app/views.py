@@ -72,7 +72,7 @@ def signup():
     except IntegrityError:
         traceback.print_exc()
         response = make_response(jsonify({"error": "username already in use"}))
-        response.set_status = 400
+        response.status_code = 400
         response.mimetype = 'application/json'
         return response
 
