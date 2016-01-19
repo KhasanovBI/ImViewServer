@@ -61,27 +61,30 @@ def login():
 
 @app.route('/signup', methods=['POST'])
 def signup():
-    username = request.form['username']
-    password = request.form['password']
-
     try:
-        password = passlib.encrypt(password)
-        user = models.User(username, password)
-        db.session.add(user)
-        db.session.commit()
-    except IntegrityError:
-        traceback.print_exc()
-        response = make_response(jsonify({"error": "username already in use"}))
-        response.status_code = 400
+        username = request.form['username']
+        password = request.form['password']
+
+        try:
+            password = passlib.encrypt(password)
+            user = models.User(username, password)
+            db.session.add(user)
+            db.session.commit()
+        except IntegrityError:
+            traceback.print_exc()
+            response = make_response(jsonify({"error": "username already in use"}))
+            response.status_code = 400
+            response.mimetype = 'application/json'
+            return response
+
+        login_user(user, remember=True)
+        resp_dict = user.as_dict()
+        del resp_dict["password"]
+        response = make_response(jsonify(resp_dict))
         response.mimetype = 'application/json'
         return response
-
-    login_user(user, remember=True)
-    resp_dict = user.as_dict()
-    del resp_dict["password"]
-    response = make_response(jsonify(resp_dict))
-    response.mimetype = 'application/json'
-    return response
+    except Exception as e:
+        app.logger.error(traceback.print_exc())
 
 
 @app.route('/', methods=['GET'])
