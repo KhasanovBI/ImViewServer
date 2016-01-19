@@ -7,7 +7,10 @@ app.config.from_object('config')
 db = SQLAlchemy(app)
 
 file_handler = logging.FileHandler("log.txt")
-file_handler.setLevel(logging.DEBUG)
+file_handler.setFormatter(logging.Formatter(
+    '%(asctime)s %(levelname)s: %(message)s '
+    '[in %(pathname)s:%(lineno)d]'
+))
 app.logger.addHandler(file_handler)
 
 from app import views, models
