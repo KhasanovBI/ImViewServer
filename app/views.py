@@ -110,17 +110,17 @@ def add_new_image():
             filename = secure_filename(filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         else:
-            return Response(status=400)
+            return Response(status=450)
     except:
         traceback.print_exc()
-        return Response(status=400)
+        return Response(status=451)
     image = models.Image(filename, 0)
     db.session.add(image)
     try:
         db.session.commit()
     except SQLAlchemyError:
         traceback.print_exc()
-        return Response(status=400)
+        return Response(status=452)
     response = jsonify(image.as_dict())
     return make_response(response)
 
